@@ -3,7 +3,7 @@ height=size(normals,1);
 width=size(normals,2);
 depths=zeros(height,width);
 
-% %±éÀúÃ¿¸öÏñËØ×îĞ¡¶ş³Ë·¨
+% %éå†æ¯ä¸ªåƒç´ æœ€å°äºŒä¹˜æ³•
 % for h=2:height
 %     for w=2:width
 %         if  ~isnan(normals(h-1,w,2)) && ~isnan(normals(h-1,w,3))&&...
@@ -11,7 +11,7 @@ depths=zeros(height,width);
 %             A=[1,1]';
 %             b=[depths(h-1,w)+normals(h-1,w,2)/normals(h-1,w,3),...
 %                 depths(h,w-1)-normals(h,w-1,1)/normals(h,w-1,3)]';
-%             %Çø±ğ£¿
+%             %åŒºåˆ«ï¼Ÿ
 %             %             n=A.'*A;
 %             %             m=A.'*b;
 %             %             x=n\m;
@@ -26,61 +26,61 @@ depths=zeros(height,width);
 %     end
 % end
 
-%×îĞ¡¶ş³Ë·¨,²Î¿¼https://github.com/xiumingzhang/photometric-stereo
+%æœ€å°äºŒä¹˜æ³•,å‚è€ƒhttps://github.com/xiumingzhang/photometric-stereo
 
-%³õÊ¼»¯¾ØÕó
-[maskH, maskW] = find(mask);    %ÕÒµ½ËùÓĞÕÚÕÖÄÚµÄµãµÄ×ø±ê
-pixels = size(maskH, 1);    %¼ÆËãÊıÁ¿
+%åˆå§‹åŒ–çŸ©é˜µ
+[maskH, maskW] = find(mask);    %æ‰¾åˆ°æ‰€æœ‰é®ç½©å†…çš„ç‚¹çš„åæ ‡
+pixels = size(maskH, 1);    %è®¡ç®—æ•°é‡
 oriIdx = zeros(height, width);
 for idx = 1:size(maskH, 1)
-    %³õÊ¼»¯Ò»¸ö¾ØÕó±£´æÍ¼ÏñÕÚÕÖÄÚµÄµãµÄÅÅĞò
+    %åˆå§‹åŒ–ä¸€ä¸ªçŸ©é˜µä¿å­˜å›¾åƒé®ç½©å†…çš„ç‚¹çš„æ’åº
     oriIdx(maskH(idx), maskW(idx)) = idx;
 end
 
-%´´½¨Ï¡Êè¾ØÕó£¬MÊÇ³¬¶¨·½³Ì×éµÄ×ó±ß£¬uÊÇÓÒ±ß£¬ÓÉÓÚMÓĞºÜ¶àÏîÊ¹ÓÃÏ¡Êè¾ØÕó½ÚÊ¡¿Õ¼ä
+%åˆ›å»ºç¨€ç–çŸ©é˜µï¼ŒMæ˜¯è¶…å®šæ–¹ç¨‹ç»„çš„å·¦è¾¹ï¼Œuæ˜¯å³è¾¹ï¼Œç”±äºMæœ‰å¾ˆå¤šé¡¹ä½¿ç”¨ç¨€ç–çŸ©é˜µèŠ‚çœç©ºé—´
 M = sparse(2*pixels, pixels);
 u = sparse(2*pixels, 1);
 
-empty_row = [];   %¼ÇÂ¼ÎŞÓÃµÄĞĞ,³¤¶È²»¶¨
-%±éÀúÃ¿Ò»¸ö·¶Î§ÄÚÏñËØ
+empty_row = [];   %è®°å½•æ— ç”¨çš„è¡Œ,é•¿åº¦ä¸å®š
+%éå†æ¯ä¸€ä¸ªèŒƒå›´å†…åƒç´ 
 for idx = 1:pixels
-    %»ñÈ¡¶ÔÓ¦µÄÍ¼Ïñ×ø±ê
+    %è·å–å¯¹åº”çš„å›¾åƒåæ ‡
     h = maskH(idx);
     w = maskW(idx);
-    %ÀûÓÃ×ø±êÌáÈ¡³ö·¨Ïß
+    %åˆ©ç”¨åæ ‡æå–å‡ºæ³•çº¿
     nx = normals(h, w, 1);
     ny = normals(h, w, 2);
     nz = normals(h, w, 3);
     
-    %×Ó·½³Ì×éµÄµÚÒ»ĞĞ£¬´¹Ö±ÁÚ¾Ó£¬row_idxÊÇÆäÔÚ·½³Ì×é¾ØÕóÖĞµÄĞĞÎ»ÖÃ
+    %å­æ–¹ç¨‹ç»„çš„ç¬¬ä¸€è¡Œï¼Œå‚ç›´é‚»å±…ï¼Œrow_idxæ˜¯å…¶åœ¨æ–¹ç¨‹ç»„çŸ©é˜µä¸­çš„è¡Œä½ç½®
     row_idx = (idx-1)*2+1;
-    if mask(h+1, w) %ÉÏÁÚ¾Ó´æÔÚÊ±
-        %ÓÉÓÚM·½³Ì×é³¤¶ÈÊÇ¶ÔÓ¦ËùÓĞµãµÄ£¬¼ÆËãÆäÉÏÁÚ¾ÓµÄĞòºÅ
+    if mask(h+1, w) %ä¸Šé‚»å±…å­˜åœ¨æ—¶
+        %ç”±äºMæ–¹ç¨‹ç»„é•¿åº¦æ˜¯å¯¹åº”æ‰€æœ‰ç‚¹çš„ï¼Œè®¡ç®—å…¶ä¸Šé‚»å±…çš„åºå·
         idx_vertN = oriIdx(h+1, w);
-        %°´ÕÕ¹«Ê½½«ÆäÏµÊıÌîÈë¾ØÕóÖĞ
+        %æŒ‰ç…§å…¬å¼å°†å…¶ç³»æ•°å¡«å…¥çŸ©é˜µä¸­
         u(row_idx) = ny;
         M(row_idx, idx) = -nz;
         M(row_idx, idx_vertN) = nz;
     elseif mask(h-1, w)
-        %´Ë²¿·ÖÊÇÏÂÁÚ¾Ó
+        %æ­¤éƒ¨åˆ†æ˜¯ä¸‹é‚»å±…
         idx_vertN = oriIdx(h-1, w);
         u(row_idx) = -ny;
         M(row_idx, idx) = -nz;
         M(row_idx, idx_vertN) = nz;
     else
-        %ÕÒ²»µ½ÁÚ¾ÓÊ±ÔÚ¿Õ°×ÁĞ±íÀï¼ÓÈë´Ëµã
+        %æ‰¾ä¸åˆ°é‚»å±…æ—¶åœ¨ç©ºç™½åˆ—è¡¨é‡ŒåŠ å…¥æ­¤ç‚¹
         empty_row = [empty_row; row_idx];
     end
-    %ÀàËÆµÄÕâÊÇ×óÓÒÁÚ¾Ó
+    %ç±»ä¼¼çš„è¿™æ˜¯å·¦å³é‚»å±…
     row_idx = (idx-1)*2+2;
     if mask(h, w+1)
-        %ÓÒ
+        %å³
         idx_horizN = oriIdx(h, w+1);
         u(row_idx) = -nx;
         M(row_idx, idx) = -nz;
         M(row_idx, idx_horizN) = nz;
     elseif mask(h, w-1)
-        %×ó
+        %å·¦
         idx_horizN = oriIdx(h, w-1);
         u(row_idx) = nx;
         M(row_idx, idx) = -nz;
@@ -90,35 +90,35 @@ for idx = 1:pixels
     end
 end
 
-%ÒÀ¾İ¸Õ²ÅµÄ¿Õ°×ÁĞ±íÉ¾È¥¶àÓàĞĞ
+%ä¾æ®åˆšæ‰çš„ç©ºç™½åˆ—è¡¨åˆ å»å¤šä½™è¡Œ
 M(empty_row, :) = [];
 u(empty_row, :) = [];
 
-%½â·½³Ì£¬µÃµ½ZµÄÏ¡Êè¾ØÕó
+%è§£æ–¹ç¨‹ï¼Œå¾—åˆ°Zçš„ç¨€ç–çŸ©é˜µ
 z = (M.'*M)\(M.'*u);
-%z=pinv(M)*u;   %svd²»Ö§³ÖÏ¡Êè¾ØÕó
+%z=pinv(M)*u;   %svdä¸æ”¯æŒç¨€ç–çŸ©é˜µ
 
-%»Ö¸´ÎªÆÕÍ¨¾ØÕó
+%æ¢å¤ä¸ºæ™®é€šçŸ©é˜µ
 z = full(z);
 
 for idx = 1:pixels
-    %½«Éî¶ÈĞÅÏ¢´ÓÒ»Î¬»¹Ô­Îª¶şÎ¬
+    %å°†æ·±åº¦ä¿¡æ¯ä»ä¸€ç»´è¿˜åŸä¸ºäºŒç»´
     h = maskH(idx);
     w = maskW(idx);
-    %ÔÚ¶şÎ¬µÄ¾ØÕóµÄ¶ÔÓ¦Î»ÖÃÌîÈë
+    %åœ¨äºŒç»´çš„çŸ©é˜µçš„å¯¹åº”ä½ç½®å¡«å…¥
     depths(h, w) = z(idx);
 end
 
-%µİ¹éÀ©É¢²âÊÔ
+%é€’å½’æ‰©æ•£æµ‹è¯•
 % [h, w] = find(~isnan(normals(:,:,1)));
 % depths=recursionDepth(normals,depths,h(1),w(1));
 
-%É¾È¥ÎŞÓÃµã
+%åˆ å»æ— ç”¨ç‚¹
 depths(depths==0)=nan;
 %depths=depths-min(depths(~isnan(depths)));
 end
 
-%µİ¹éÀ©É¢£¬Ğ§¹û²»ºÃ
+%é€’å½’æ‰©æ•£ï¼Œæ•ˆæœä¸å¥½
 function depths=recursionDepth(normals,depths,h,w)
 
 if h~=size(depths,1)&&depths(h+1,w)==0
