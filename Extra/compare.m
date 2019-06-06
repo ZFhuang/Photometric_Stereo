@@ -2,9 +2,9 @@ function compare(oriPath,afterPath)
 %相减和相除来比较两张图的差异
 %其中相除是
 
-oriImg=getDumpMapping(oriPath);
+oriImg=getBumpMapping(oriPath);
 oriImg=toUintImg(oriImg);
-afterImg=getDumpMapping(afterPath);
+afterImg=getBumpMapping(afterPath);
 afterImg=toUintImg(afterImg);
 temp=zeros(size(oriImg));
 temp(1:size(afterImg,1),1:size(afterImg,2),:)=afterImg;

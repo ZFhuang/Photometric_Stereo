@@ -2,7 +2,7 @@ function sharpened=sharpen(oriPath)
 % % 锐化
 % % Laplacian算子
 % 
-% I = getDumpMapping(oriPath);
+% I = getBumpMapping(oriPath);
 % H = fspecial('laplacian',0);
 % 
 % g = imfilter(I,H,'replicate');
@@ -16,7 +16,7 @@ function sharpened=sharpen(oriPath)
 % % 锐化
 % % YSobel算子
 % 
-% I = getDumpMapping(oriPath);
+% I = getBumpMapping(oriPath);
 % H = [-1,0,1;-2,0,+2;-1,0,1];
 % 
 % g = imfilter(I,H,'replicate');
@@ -30,7 +30,7 @@ function sharpened=sharpen(oriPath)
 % % 锐化
 % % CannyZ算子
 % 
-% I = getDumpMapping(oriPath);
+% I = getBumpMapping(oriPath);
 % 
 % g3 = edge(I(:,:,3),'Canny');
 % 
@@ -46,7 +46,7 @@ function sharpened=sharpen(oriPath)
 % 锐化
 % LaplacianZ算子
 
-I = getDumpMapping(oriPath);
+I = getBumpMapping(oriPath);
 H = fspecial('laplacian');
 
 g3 = imfilter(I(:,:,3),H,'replicate');
