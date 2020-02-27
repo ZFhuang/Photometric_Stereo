@@ -1,2 +1,0 @@
-# Photometric_Stereo
-Learning
