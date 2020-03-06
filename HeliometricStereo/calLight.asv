@@ -69,11 +69,15 @@ for i=1:endIdx
                 count=count+1;
                 centH=centH+h;
                 centW=centW+w;
+                Img(h,w)=255;
             else
+                Img(h,w)=0;
             end
         end
     end
-        
+    
+    imshow(Img);
+    
     %平均得到高光中心
     highlight=[centH/count,centW/count];
     
@@ -81,7 +85,7 @@ for i=1:endIdx
     x=highlight(1)-centroid(1);
     y=highlight(2)-centroid(2);
     z=sqrt(R^2-x^2-y^2);
-    normal=[y,-x,z];
+    normal=[x,y,z];
     %单位化
     N=normal./R;
     
@@ -91,7 +95,7 @@ for i=1:endIdx
 end
 
 %可是为什么
-% lightPos(:,1)=-lightPos(:,1); %这行得到类似git上的效果，不加则是文章的效果
+lightPos(:,1)=-lightPos(:,1); %这行得到类似git上的效果，不加则是文章的效果
 temp=lightPos(:,1);
 lightPos(:,1)=lightPos(:,2);
 lightPos(:,2)=temp;

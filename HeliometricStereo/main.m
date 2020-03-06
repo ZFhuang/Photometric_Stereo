@@ -1,12 +1,12 @@
-lightsFolder='Lights';
-objectFolder='Apollo';
+lightsFolder='Resources/Lights';
+objectFolder='Resources/Apollo';
 endIdx=16;
 
 disp('开始光源处理');
 %计算光源
 lightPos=calLight(lightsFolder,endIdx);
-% %保存光源
-% save([lightsFolder,'/lightPos.txt'],'lightPos','-ascii');
+%保存光源
+save([lightsFolder,'/lightPos.txt'],'lightPos','-ascii');
 % %读取光源
 % lightPos = load([lightsFolder,'/lightPos.txt'],'-ascii');
 % disp('光源处理完毕');

@@ -1,0 +1,11 @@
+
+
+normals=zeros()
+
+%计算高光法线
+x=highlight(1)-centroid(1);
+y=highlight(2)-centroid(2);
+z=sqrt(R^2-x^2-y^2);
+normal=[x,y,z];
+%单位化
+N=normal./R;
