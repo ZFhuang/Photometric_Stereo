@@ -62,11 +62,8 @@ for h=1:height
         %构造方程组
         I=double(reshape(Images(h,w,:),[1,endIdx]));
         if maskImg(h,w)~=0
-            %最小二乘法
+            %最小二乘法的正规方程解
             X=pinv(lightPos'*lightPos)*lightPos'*I';
-            
-            %简易法
-            %X=pinv(lightPos)*I';
         else
             X=[0,0,0]';
         end

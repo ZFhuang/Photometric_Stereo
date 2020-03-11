@@ -1,9 +1,9 @@
-function lightPos=calLight(imageFolder,endIdx)
+function lightVec=calLight(imageFolder,endIdx)
 %imageFolder是光源标定物照片所在的文件夹
 %endIdx是最后一个文件的序号，从1开始
 
 disp('————');
-lightPos=zeros(endIdx,3);
+lightVec=zeros(endIdx,3);
 
 %读取遮罩
 maskImg=imread([imageFolder,'/mask.png']);
@@ -85,14 +85,9 @@ for i=1:endIdx
     %单位化
     N=normal./R;
     
-    %公式(??)得到结果
+    %视点向量,由于指向高光点比较困难，看作直接朝前
     A=[0,0,1];
-    lightPos(i,:)=2*(N*A')*N-A;
+    %反射光源向量，可画图得
+    lightVec(i,:)=2*(N*A')*N-A;
 end
-
-%可是为什么
-% lightPos(:,1)=-lightPos(:,1); %这行得到类似git上的效果，不加则是文章的效果
-temp=lightPos(:,1);
-lightPos(:,1)=lightPos(:,2);
-lightPos(:,2)=temp;
 end
