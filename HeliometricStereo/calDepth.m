@@ -56,7 +56,7 @@ end
 M = sparse(2*pixels, pixels);
 u = sparse(2*pixels, 1);
 
-disp('开始计算');
+disp('构造稀疏方程矩阵');
 empty_row = [];   %记录无用的行,长度不定
 %遍历每一个范围内像素
 for idx = 1:pixels
@@ -115,7 +115,7 @@ M(empty_row, :) = [];
 u(empty_row, :) = [];
 
 disp('开始解方程');
-%解方程，得到Z的稀疏矩阵
+%用最小二乘法解方程
 z = (M.'*M)\(M.'*u);
 %z=pinv(M)*u;   %svd不支持稀疏矩阵
 

@@ -34,11 +34,11 @@ for h=1:height
     end
 end
 
-%测试掩码状态
-imshow(maskImg);
-Img=imread([imageFolder,'/',int2str(1),'.bmp']);
-Img=Img.*maskImg;
-imshow(Img);
+% %测试掩码状态
+% imshow(maskImg);
+% Img=imread([imageFolder,'/',int2str(1),'.bmp']);
+% Img=Img.*maskImg;
+% imshow(Img);
 
 %平均所有圆上像素的位置得到圆心
 centroid=[centH/count,centW/count];
