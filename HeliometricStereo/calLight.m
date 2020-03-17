@@ -9,7 +9,7 @@ lightVec=zeros(endIdx,3);
 maskImg=imread([imageFolder,'/mask.png']);
 maskImg=maskImg(:,:,1);
 
-imshow(maskImg);
+% imshow(maskImg);
 % pause;
 
 %¼ÆËãÔ²ĞÄ

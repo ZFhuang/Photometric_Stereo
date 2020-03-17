@@ -1,10 +1,12 @@
 function depths=calDepth(normals,imageFolder)
+disp('¡ª¡ª¡ª¡ª');
 height=size(normals,1);
 width=size(normals,2);
 depths=zeros(height,width);
 
 %¶ÁÈ¡ÕÚÕÖ
 mask=imread([imageFolder,'/mask.png']);
+mask=mask(:,:,1);
 height=size(mask,1);
 width=size(mask,2);
 for h=1:height
