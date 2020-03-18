@@ -3,7 +3,7 @@
 
 lightsFolder='Resources/Test/Lgt';
 objectFolder='Resources/Test/Obj';
-endIdx=4;
+endIdx=12;
 
 disp('开始光源处理');
 %计算光源

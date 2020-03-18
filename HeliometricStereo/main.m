@@ -1,6 +1,6 @@
 lightsFolder='Resources/Lights';
 objectFolder='Resources/Apollo';
-endIdx=16;
+endIdx=6;
 
 disp('开始光源处理');
 %计算光源

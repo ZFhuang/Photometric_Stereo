@@ -5,15 +5,7 @@ disp('————');
 maskImg=imread([imageFolder,'/mask.png']);
 height=size(maskImg,1);
 width=size(maskImg,2);
-% for h=1:height
-%     for w=1:width
-%         if maskImg(h,w)>200
-%             maskImg(h,w)=1;
-%         else
-%             maskImg(h,w)=0;
-%         end
-%     end
-% end
+%转为
 maskImg=uint8(maskImg&1);
 disp('遮罩读取完毕');
 
