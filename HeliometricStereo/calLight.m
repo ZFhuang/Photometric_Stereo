@@ -1,6 +1,14 @@
 function lightVec=calLight(imageFolder,endIdx)
-%imageFolder是光源标定物照片所在的文件夹
-%endIdx是最后一个文件的序号，从1开始
+%function lightVec=calLight(imageFolder,endIdx)
+%利用图片中的标定球计算光源方向
+%
+%imageFolder:   图片文件夹
+%endIdx:        用于控制序列范围，从1到endIdx
+%
+%example:       lightVec=calLight('Resources/Lights',6);
+
+%——————————————————————————————————————
+%读取遮罩文件并计算标定球圆心位置
 
 disp('————');
 lightVec=zeros(endIdx,3);
@@ -40,14 +48,19 @@ end
 % Img=Img.*maskImg;
 % imshow(Img);
 
+%——————————————————————————————————————
+%计算标定球半径
+
 %平均所有圆上像素的位置得到圆心
 centroid=[centH/count,centW/count];
-
 %用面积计算半径
 R=sqrt(count/pi);
 
-%得到半径
+%输出半径
 %disp(R);
+
+%——————————————————————————————————————
+%标出高光点并计算各个高光点对应的光源向量
 
 disp('开始计算高光点');
 %遍历反光图像
@@ -81,6 +94,7 @@ for i=1:endIdx
     x=highlight(1)-centroid(1);
     y=highlight(2)-centroid(2);
     z=sqrt(R^2-x^2-y^2);
+    %注意相机坐标系与平时用的直角坐标系是不同的
     normal=[y,-x,z];
     %单位化
     N=normal./R;

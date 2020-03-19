@@ -1,20 +1,32 @@
+%主脚本，包含了一轮重建的所有步骤
+
+%——————————————————————————————————————
+%基础文件夹指定和文件遍历数量指定
+
 lightsFolder='Resources/Lights';
 objectFolder='Resources/Apollo';
 endIdx=6;
 
+%——————————————————————————————————————
+%计算光源信息
+
 disp('开始光源处理');
-%计算光源
-lightPos=calLight(lightsFolder,endIdx);
+% %用标定球计算光源
+% lightPos=calLight(lightsFolder,endIdx);
+%用地理信息计算光源
+lightVec=calLightSun(lightsFolder,endIdx);
 %保存光源
-save([lightsFolder,'/lightPos.txt'],'lightPos','-ascii');
+save([lightsFolder,'/lightPos.txt'],'lightVec','-ascii');
 %读取光源
-lightPos = load([lightsFolder,'/lightPos.txt'],'-ascii');
+lightVec = load([lightsFolder,'/lightPos.txt'],'-ascii');
 disp('光源处理完毕');
+
+%——————————————————————————————————————
+%还原表面法线并显示
 
 %计算法线和反射率rho
 disp('开始计算法线和反射率');
-% [normals,rho]=calNormals_old('cat',lightPos);
-[normals,rho]=calNormals(objectFolder,endIdx,lightPos);
+[normals,rho]=calNormals(objectFolder,endIdx,lightVec);
 disp('计算法线和反射率完毕');
 
 %显示法线图
@@ -27,6 +39,9 @@ imshow(toNormalImg(normals));
 %显示反射率图
 figure;
 imshow(rho);
+
+%——————————————————————————————————————
+%从法线还原表面深度信息
 
 %计算深度图
 disp('开始计算深度');
