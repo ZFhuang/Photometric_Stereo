@@ -47,18 +47,22 @@
 % disp('开始计算深度');
 % depths = calDepth(normals, objectFolder);
 % disp('开始深度计算完毕');
-
-%显示深度图
-disp('————');
-disp('显示深度');
-minD = min(depths(~isnan(depths)));
-maxD = max(depths(~isnan(depths)));
-depths2D=(depths-minD)/(maxD-minD)*255;
-figure;
-imshow(uint8(depths2D));
-% pause;
-figure;
+% 
+% %显示深度图
+% disp('————');
+% disp('显示深度');
+% minD = min(depths(~isnan(depths)));
+% maxD = max(depths(~isnan(depths)));
+% depths2D=(depths-minD)/(maxD-minD)*255;
+% figure;
+% imshow(uint8(depths2D));
+% % pause;
+% figure;
 %绘制时需要对深度信息进行转置才能正常显示
 s=surfl(depths');
 s.EdgeColor = 'none';
+
+%导出为stl文件
+surf2stl('Outputs/outputSTL.stl',s.XData,s.YData,s.ZData);
+
 % pause;
