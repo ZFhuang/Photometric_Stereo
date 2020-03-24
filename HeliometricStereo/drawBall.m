@@ -1,6 +1,12 @@
+%绘制示例法线球脚本，会显示球的法线针图
+%需要show_surfNorm.m
+
+%——————————————————————————————————————
+%预分配
 normals=zeros(100,100,3);
 R=45;
 
+%计算法线
 for i=1:100
     for j=1:100
         %计算对应点法线
@@ -25,4 +31,5 @@ end
 % normals=normals/2;
 % imshow(normals(:,:,:));
 
+%绘制
 show_surfNorm(normals, 3);

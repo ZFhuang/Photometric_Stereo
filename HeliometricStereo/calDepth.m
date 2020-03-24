@@ -1,14 +1,25 @@
 function depths=calDepth(normals,imageFolder)
+%function depths=calDepth(normals,imageFolder)
+%从法线图计算深度图
+%
+%normals:       输入的法线矩阵
+%imageFolder:   遮罩文件所在的文件夹，遮罩文件名为mask.png
+%
+%example:   calDepth(normals,'Resources/Apollo');
+
+%——————————————————————————————————————
+%读取遮罩
+
 disp('————');
 height=size(normals,1);
 width=size(normals,2);
 depths=zeros(height,width);
-
-%读取遮罩
 mask=imread([imageFolder,'/mask.png']);
 mask=mask(:,:,1);
 height=size(mask,1);
 width=size(mask,2);
+
+%化为[0,1]
 for h=1:height
     for w=1:width
         if mask(h,w)>200
@@ -20,7 +31,9 @@ for h=1:height
 end
 disp('遮罩读取完毕');
 
-%最小二乘法,参考https://github.com/xiumingzhang/photometric-stereo
+%——————————————————————————————————————
+%对计算矩阵进行初始化
+%参考了https://github.com/xiumingzhang/photometric-stereo
 
 %初始化矩阵
 [maskH, maskW] = find(mask);    %找到所有遮罩内的点的坐标
@@ -34,6 +47,9 @@ end
 %创建稀疏矩阵，M是超定方程组的左边，u是右边，由于M有很多项使用稀疏矩阵节省空间
 M = sparse(2*pixels, pixels);
 u = sparse(2*pixels, 1);
+
+%——————————————————————————————————————
+%构造初始化矩阵
 
 disp('构造稀疏方程矩阵');
 empty_row = [];   %记录无用的行,长度不定
@@ -93,8 +109,10 @@ end
 M(empty_row, :) = [];
 u(empty_row, :) = [];
 
-disp('开始解方程');
+%——————————————————————————————————————
 %用最小二乘法解方程
+
+disp('开始解方程');
 z = (M.'*M)\(M.'*u);
 %z=pinv(M)*u;   %svd不支持稀疏矩阵
 
@@ -113,8 +131,6 @@ for idx = 1:pixels
     %在二维的矩阵的对应位置填入
     depths(h, w) = (z(idx)-z_min)/(z_max-z_min)*255;
 end
-
-
 
 %删去无用点
 depths(depths==0)=nan;
